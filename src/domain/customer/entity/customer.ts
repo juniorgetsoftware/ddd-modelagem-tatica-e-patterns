@@ -1,4 +1,4 @@
-import Address from "../value-object/address";
+import Address from '../value-object/address';
 
 export default class Customer {
   private _id: string;
@@ -19,6 +19,10 @@ export default class Customer {
 
   get name(): string {
     return this._name;
+  }
+
+  get address(): Address {
+    return this._address;
   }
 
   get rewardPoints(): number {
