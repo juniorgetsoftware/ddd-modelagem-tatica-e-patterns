@@ -92,7 +92,6 @@ describe("Order repository test", () => {
     await customerRepository.create(customer);
 
     const product1 = ProductFactory.create("a", "Product 1", 10) as Product;
-
     const productRepository = new ProductRepository();
     await productRepository.create(product1);
 
@@ -117,13 +116,26 @@ describe("Order repository test", () => {
     customer2.changeAddress(address2);
     await customerRepository.create(customer2);
     order.changeCustomer(customer2.id);
+    order.changeItems([
+      new OrderItem("2", product1.name, 10, product1.id, 2),
+      new OrderItem("3", product1.name, 20, product1.id, 4),
+    ]);
 
     await orderRepository.update(order);
 
     const orderResult2 = await orderRepository.find(order.id);
+    
+    expect(order.id).toStrictEqual(orderResult2.id);
+    expect(orderResult2.items.length).toBe(2);
+    expect(orderResult2.items).toStrictEqual(
+      [
+        new OrderItem("2", product1.name, 10, product1.id, 2),
+        new OrderItem("3", product1.name, 20, product1.id, 4)
+      ]);
 
-    expect(order).toStrictEqual(orderResult2);
   });
+
+
 
   it("should find an order by id", async () => {
     const address = new Address("Street 1", 1, "Zipcode 1", "City 1");

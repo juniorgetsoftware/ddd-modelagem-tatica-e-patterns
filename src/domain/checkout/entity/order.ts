@@ -50,4 +50,8 @@ export default class Order {
   changeCustomer(customerId: string) {
     this._customerId = customerId;
   }
+
+  changeItems(items: OrderItem[]) {
+    this._items = items;
+  }
 }
